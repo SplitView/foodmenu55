@@ -1,0 +1,23 @@
+﻿@model IEnumerable<FoodMenuWeb.Models.Users>
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Users</h2>
+<table class="table table-responsive table-striped" >
+    <tr>
+        <th>UserName</th>
+        <th>UserId(SlackId)</th>
+        <th>Histroy</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.UserName</td>
+            <td>@item.UserId</td>
+            <td><a href="@Url.Action("Orders", "Admin", new { userId = item.UserId })">History</a></td>
+        </tr>
+    }
+</table>
+

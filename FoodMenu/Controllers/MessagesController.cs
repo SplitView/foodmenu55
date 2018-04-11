@@ -53,6 +53,10 @@ namespace FoodMenu
             else if (message.Type == ActivityTypes.Ping)
             {
             }
+            else if (message.Type== ActivityTypes.MessageReaction)
+            {
+
+            }
 
             return null;
         }
