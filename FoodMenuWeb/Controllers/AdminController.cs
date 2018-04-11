@@ -89,5 +89,51 @@ namespace FoodMenuWeb.Controllers
 
             return View(orderList);
         }
+        public ActionResult AllOrders()
+        {
+            List<OrderVM1> orderList = new List<OrderVM1>();
+            CloudTable table = tableClient.GetTableReference("orderTable");
+            table.CreateIfNotExists();
+
+            CloudTable table1 = tableClient.GetTableReference("usertable");
+            table1.CreateIfNotExists();
+
+            TableQuery<Order> query = new TableQuery<Order>().Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, DateTime.Now.Date.ToString("MM:dd:yy").ToLower()));
+
+            var orders = table.ExecuteQuery(query);
+            // Print the fields for each customer.
+            foreach (Order entity in orders)
+            {
+                TableOperation retrieveOperation = TableOperation.Retrieve<Order>(entity.PartitionKey, entity.RowKey);
+
+                // Execute the retrieve operation.
+                TableResult retrievedResult = table.Execute(retrieveOperation);
+                var order = (Order)retrievedResult.Result;
+
+                TableOperation retrieveUserOperation = TableOperation.Retrieve<Users>("slack", order.UserId.ToLower());
+
+                // Execute the retrieve operation.
+                TableResult retrievedUserResult = table1.Execute(retrieveUserOperation);
+                var user = ((Users)retrievedUserResult.Result);
+                var orderVm = new OrderVM1 { UserName = user.UserName };
+                if (order.ItemId == 1)
+                {
+                    orderVm.Item = "Chowmin";
+                }
+                else if (order.ItemId == 2)
+                {
+                    orderVm.Item = "Pizza";
+                }
+                else
+                {
+                    orderVm.Item = "Momo";
+                }
+                orderList.Add(orderVm);
+
+            }
+
+
+            return View(orderList);
+        }
     }
 }

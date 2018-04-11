@@ -31,4 +31,9 @@ namespace FoodMenuWeb.Models
         public string Item { get; set; }
         public DateTime Date { get; set; }
     }
+    public class OrderVM1
+    {
+        public string Item { get; set; }
+        public string UserName { get; set; }
+    }
 }

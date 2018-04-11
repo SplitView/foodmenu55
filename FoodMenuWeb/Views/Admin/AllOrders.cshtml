@@ -1,0 +1,26 @@
+﻿@model IEnumerable<FoodMenuWeb.Models.OrderVM1>
+
+@{
+    ViewBag.Title = "Todays Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Orders</h2>
+
+<div>
+    <h4>Todsys Order</h4>
+    <hr />
+    <table class="table table-responsive table-striped">
+        <tr>
+            <th>Order</th>
+            <th>User</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Item</td>
+                <td>@item.UserName</td>
+            </tr>
+        }
+    </table>
+</div>
